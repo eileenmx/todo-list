@@ -4,6 +4,7 @@ import ListItemInput from './ListItemInput';
 import ActiveListItems from './ActiveListItems';
 import FinishedListItems from './FinishedListItems';
 
+
 import './react-styles.css';
 
 class ToDoList extends Component {
@@ -62,12 +63,27 @@ class ToDoList extends Component {
         })
     };
 
+	deleteItem = (currentText) => {
+		const currentFinishedListItems = this.state.finishedListItems;
+        const indexOfActiveItem = currentFinishedListItems.indexOf(currentText.toString());
+		
+		currentFinishedListItems.splice(indexOfActiveItem, 1);
+
+        
+            this.setState({
+                    currentListItem : currentFinishedListItems
+            });
+       
+    };
+
+
     constructor(props) {
         super(props);
         this.setCurrentToDoListItem = this.setCurrentToDoListItem.bind(this);
         this.addItemToList = this.addItemToList.bind(this);
         this.markItemAsFinished = this.markItemAsFinished.bind(this);
         this.markItemAsActive = this.markItemAsActive.bind(this);
+		this.deleteItem = this.deleteItem.bind(this);
 
         this.state = {
             currentListItem: '',
@@ -75,6 +91,7 @@ class ToDoList extends Component {
             finishedListItems: []
         };
     }
+
 
     render() {
 
@@ -98,7 +115,12 @@ class ToDoList extends Component {
                     className="finished-items"
                     finishedListItems={this.state.finishedListItems}
                     onClick={this.markItemAsActive}
+					deleteItem={this.deleteItem}
                 />
+				
+			
+			
+			
             </div>
         );
     }
